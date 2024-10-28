@@ -1,37 +1,44 @@
 import { Container } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export function Home() {
+    const [films, setFilms] = useState<Array<[string, number]>>([])
 
     useEffect(() => {
-        getMovies("nbarretoduarte@gmail.com");
-    }, [])
-
-    async function getMovies(userId: string) {
-        try {
-            // Referência ao documento do usuário no Firestore
+        async function getMovies(userId: string) {
             const userDocRef = doc(db, "user", userId);
 
-            // Obtenha o documento
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
-                // Acessa o campo "movie"
                 const movies = userDoc.data().movie;
-                console.log("Movies:", movies);
-                return movies;
-            } else {
-                console.log("Documento não encontrado.");
+
+                const movieCounts = movies.reduce((acc: Record<string, number>, movie: string) => {
+                    const movieLower = movie.toLowerCase();
+                    acc[movieLower] = (acc[movieLower] || 0) + 1;
+                    return acc;
+                }, {});
+
+                setFilms(Object.entries(movieCounts));
+
             }
-        } catch (error) {
-            console.error("Erro ao acessar os movies:", error);
         }
-    }
+
+        getMovies("nbarretoduarte@gmail.com");
+    }, [])
+
+
 
 
     return (
-        <Container></Container>
+        <Container>
+            {films.map(([movie, count]) => (
+                <li key={movie}>
+                    {movie}: {count} {count > 1 ? "vezes" : "vez"}
+                </li>
+            ))}
+        </Container>
     )
 }
