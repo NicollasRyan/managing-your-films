@@ -39,7 +39,7 @@ export function Home() {
             if (userDoc.exists()) {
                 const movies = userDoc.data().movie || [];
 
-                movies.push(newMovie);
+                movies.push(newMovie.toLowerCase());
 
                 await updateDoc(userDocRef, { movie: movies })
             }
@@ -48,14 +48,37 @@ export function Home() {
         }
     };
 
+    const removeMovie = async (movieToRemove: string) => {
+        try {
+            const userDocRef = doc(db, "user", "nbarretoduarte@gmail.com");
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+                const movies = userDoc.data().movie || [];
+                console.log("Filmes antes da remoção:", movies);
+
+                const index = movies.indexOf(movieToRemove);
+                if (index !== -1) {
+                    movies.splice(index, 1);
+                    await updateDoc(userDocRef, { movie: movies });
+                    console.log("Filme removido:", movieToRemove);
+                } else {
+                    console.log("Filme não encontrado:", movieToRemove);
+                }
+            }
+        } catch (error) {
+            console.log("Erro ao remover o filme:", error);
+        }
+    };
+
     return (
         <Container>
             {films.map(([movie, count]) => (
-                <li key={movie}>
+                <button key={movie} onClick={() => removeMovie(movie.toLowerCase())}>
                     {movie.toUpperCase()}: {count} {count > 1 ? "vezes" : "vez"}
-                </li>
+                </button>
             ))}
             <InputAddMovie addMovie={addMovie} />
-        </Container>
+        </Container >
     )
 }

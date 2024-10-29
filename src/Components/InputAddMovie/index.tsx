@@ -13,7 +13,7 @@ export function InputAddMovie({ addMovie }: { addMovie: (newMovie: string) => vo
             <InputAdd
                 label="Qual foi o filme que você assistiu?"
                 variant="outlined"
-                {...register("movie")}
+                {...register("movie", { required: true })}
             />
             <ButtonAdd type="submit">Adicionar</ButtonAdd>
         </form>
