@@ -7,6 +7,8 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import { auth } from './firebase';
 import { Home } from './pages/Home';
 import { InputSearch } from './pages/InputSearch';
+import { Register } from './pages/Register';
+import { Login } from './pages/Login';
 
 
 const Main = () => {
@@ -30,8 +32,8 @@ const Main = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route element={<App />}>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<InputSearch />} />
