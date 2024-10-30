@@ -6,6 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import { auth } from './firebase';
 import { Home } from './pages/Home';
+import { InputSearch } from './pages/InputSearch';
 
 
 const Main = () => {
@@ -33,6 +34,7 @@ const Main = () => {
         <Route path="/register" element={<Register />} /> */}
         <Route element={<App />}>
           <Route path="/" element={<Home />} />
+          <Route path="/search" element={<InputSearch />} />
         </Route>
       </>
     )

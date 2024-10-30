@@ -1,17 +1,21 @@
-import { Container } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Container } from "@mui/material";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+
 import { db } from "../../firebase";
 import { InputAddMovie } from "../../Components/InputAddMovie";
 
 export function Home() {
-    const [films, setFilms] = useState<Array<[string, number]>>([])
+    const [films, setFilms] = useState<Array<[string, number]>>([]);
+
+
+    const userDocRef = doc(db, "user", "nbarretoduarte@gmail.com");
+    const getUser = getDoc(userDocRef)
+
 
     useEffect(() => {
         async function getMovies(userId: string) {
-            const userDocRef = doc(db, "user", userId);
-
-            const userDoc = await getDoc(userDocRef);
+            const userDoc = await getUser;
 
             if (userDoc.exists()) {
                 const movies = userDoc.data().movie;
@@ -28,13 +32,12 @@ export function Home() {
         }
 
         getMovies("nbarretoduarte@gmail.com");
-    }, [films]);
+    }, [films, getUser, userDocRef]);
 
 
     const addMovie = async (newMovie: any) => {
         try {
-            const userDocRef = doc(db, "user", "nbarretoduarte@gmail.com");
-            const userDoc = await getDoc(userDocRef);
+            const userDoc = await getUser;
 
             if (userDoc.exists()) {
                 const movies = userDoc.data().movie || [];
@@ -50,8 +53,7 @@ export function Home() {
 
     const removeMovie = async (movieToRemove: string) => {
         try {
-            const userDocRef = doc(db, "user", "nbarretoduarte@gmail.com");
-            const userDoc = await getDoc(userDocRef);
+            const userDoc = await getUser;
 
             if (userDoc.exists()) {
                 const movies = userDoc.data().movie || [];
@@ -71,14 +73,18 @@ export function Home() {
         }
     };
 
+
+
+
+
     return (
         <Container>
+            <InputAddMovie addMovie={addMovie} />
             {films.map(([movie, count]) => (
                 <button key={movie} onClick={() => removeMovie(movie.toLowerCase())}>
                     {movie.toUpperCase()}: {count} {count > 1 ? "vezes" : "vez"}
                 </button>
             ))}
-            <InputAddMovie addMovie={addMovie} />
         </Container >
-    )
+    );
 }
