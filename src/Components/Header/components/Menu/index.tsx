@@ -1,7 +1,7 @@
-import { PersonAdd, Settings, Logout } from "@mui/icons-material";
-import { MenuItem, Avatar, Divider, ListItemIcon, Menu } from "@mui/material";
+import { Logout } from "@mui/icons-material";
+import { MenuItem, Avatar, ListItemIcon, Menu } from "@mui/material";
 
-export function MenuComponent({ handleClose, open, anchorEl }: any) {
+export function MenuComponent({ handleClose, open, anchorEl, name, logout }: any) {
     return (
         <Menu
             id="account-menu"
@@ -41,25 +41,9 @@ export function MenuComponent({ handleClose, open, anchorEl }: any) {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
             <MenuItem onClick={handleClose}>
-                <Avatar /> Profile
+                <Avatar /> {name}
             </MenuItem>
-            <MenuItem onClick={handleClose}>
-                <Avatar /> My account
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                    <PersonAdd fontSize="small" />
-                </ListItemIcon>
-                Add another account
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                    <Settings fontSize="small" />
-                </ListItemIcon>
-                Settings
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={logout}>
                 <ListItemIcon>
                     <Logout fontSize="small" />
                 </ListItemIcon>
