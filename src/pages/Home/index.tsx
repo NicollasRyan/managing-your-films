@@ -1,21 +1,39 @@
 import { useEffect, useState } from "react";
 import { Container } from "@mui/material";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { InputAddMovie } from "../../Components/InputAddMovie";
+import { Navigate } from "react-router-dom";
 
 export function Home() {
     const [films, setFilms] = useState<Array<[string, number]>>([]);
 
+    const user = auth.currentUser;
+    if (!user) {
+        console.error("Usuário não autenticado");
+        return <Navigate to="/login" />;
+    }
 
-    const userDocRef = doc(db, "user", "nbarretoduarte@gmail.com");
+    const userEmail = user.email ?? "";
+    console.log("=>", userEmail)
+
+    const userDocRef = doc(db, "user", userEmail);
     const getUser = getDoc(userDocRef)
 
 
+
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         async function getMovies(userId: string) {
-            const userDoc = await getUser;
+
+            if (!userEmail) {
+                console.error("Usuário não autenticado");
+                return <Navigate to="/login" />;
+            }
+
+            const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
                 const movies = userDoc.data().movie;
@@ -31,13 +49,13 @@ export function Home() {
             }
         }
 
-        getMovies("nbarretoduarte@gmail.com");
-    }, [films, getUser, userDocRef]);
+        getMovies(userEmail);
+    }, [films, getUser, userDocRef, userEmail]);
 
 
     const addMovie = async (newMovie: any) => {
         try {
-            const userDoc = await getUser;
+            const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
                 const movies = userDoc.data().movie || [];
@@ -45,6 +63,10 @@ export function Home() {
                 movies.push(newMovie.toLowerCase());
 
                 await updateDoc(userDocRef, { movie: movies })
+                console.log(movies)
+            } else {
+                await setDoc(userDocRef, { movie: [newMovie.toLowerCase()] });
+                console.log("Documento criado e filme adicionado:", [newMovie.toLowerCase()]);
             }
         } catch (error) {
             console.log("Erro ao passar o filme: ", error)
@@ -53,7 +75,7 @@ export function Home() {
 
     const removeMovie = async (movieToRemove: string) => {
         try {
-            const userDoc = await getUser;
+            const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
                 const movies = userDoc.data().movie || [];

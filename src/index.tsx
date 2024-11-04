@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { onAuthStateChanged } from 'firebase/auth';
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from 'react-router-dom';
 import { auth } from './firebase';
 import { Home } from './pages/Home';
 import { InputSearch } from './pages/InputSearch';
@@ -35,8 +35,9 @@ const Main = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<App />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<InputSearch />} />
+          <Route path="/" element={isAuthenticated ? <Home /> : <Navigate
+            to="/login" />} />
+          <Route path="/search" element={isAuthenticated ? <InputSearch /> : <Navigate to="/login" />} />
         </Route>
       </>
     )

@@ -1,12 +1,21 @@
 import { useState } from "react";
 import { BoxSearch, Input, Result } from "./style";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
+import { Navigate } from "react-router-dom";
 
 export function InputSearch() {
     const [searchResult, setSearchResult] = useState<[string, number][] | null>(null);
 
     const [searchTerm, setSearchTerm] = useState('');
+
+    const user = auth.currentUser;
+    if (!user) {
+        console.error("Usuário não autenticado");
+        return <Navigate to="/login" />;
+    }
+
+    const userEmail = user.email ?? "";
 
     const handleSearch = (e: any) => {
         setSearchTerm(e.target.value)
@@ -15,7 +24,7 @@ export function InputSearch() {
 
     const searchMovie = async (movieToSearch: string) => {
         try {
-            const userDocRef = doc(db, "user", "nbarretoduarte@gmail.com");
+            const userDocRef = doc(db, "user", userEmail);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
