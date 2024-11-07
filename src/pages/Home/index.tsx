@@ -5,6 +5,7 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { InputAddMovie } from "../../Components/InputAddMovie";
 import { Navigate } from "react-router-dom";
+import { CardMovie } from "../../Components/CardMovie";
 
 export function Home() {
     const [films, setFilms] = useState<Array<[string, number]>>([]);
@@ -63,7 +64,7 @@ export function Home() {
                 movies.push(newMovie.toLowerCase());
 
                 await updateDoc(userDocRef, { movie: movies })
-                console.log(movies)
+                console.log(movies);
             } else {
                 await setDoc(userDocRef, { movie: [newMovie.toLowerCase()] });
                 console.log("Documento criado e filme adicionado:", [newMovie.toLowerCase()]);
@@ -103,9 +104,8 @@ export function Home() {
         <Container>
             <InputAddMovie addMovie={addMovie} />
             {films.map(([movie, count]) => (
-                <button key={movie} onClick={() => removeMovie(movie.toLowerCase())}>
-                    {movie.toUpperCase()}: {count} {count > 1 ? "vezes" : "vez"}
-                </button>
+                <CardMovie key={movie} movie={movie} count={count} handleDelete={() => removeMovie(movie.toLowerCase())} />
+
             ))}
         </Container >
     );

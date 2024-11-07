@@ -6,7 +6,6 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from 'react-router-dom';
 import { auth } from './firebase';
 import { Home } from './pages/Home';
-import { InputSearch } from './pages/InputSearch';
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 
@@ -37,7 +36,6 @@ const Main = () => {
         <Route element={<App />}>
           <Route path="/" element={isAuthenticated ? <Home /> : <Navigate
             to="/login" />} />
-          <Route path="/search" element={isAuthenticated ? <InputSearch /> : <Navigate to="/login" />} />
         </Route>
       </>
     )
