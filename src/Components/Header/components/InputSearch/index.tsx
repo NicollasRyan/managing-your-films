@@ -77,10 +77,12 @@ export function InputSearch() {
 
     return (
         <BoxSearch>
-            <Text>Buscar seu filme:</Text>
+            <Text>Pesquisar filme que você já assistiu:</Text>
             <Input
                 fullWidth
                 type="text"
+                label="Buscar filme"
+                variant="filled"
                 value={searchTerm}
                 onChange={handleSearch}
             />

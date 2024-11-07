@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { Container } from "@mui/material";
+import { Container, Pagination } from "@mui/material";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 import { auth, db } from "../../firebase";
 import { InputAddMovie } from "../../Components/InputAddMovie";
 import { Navigate } from "react-router-dom";
 import { CardMovie } from "../../Components/CardMovie";
+import { BoxPage } from "./style";
 
 export function Home() {
+    const [currentPage, setCurrentPage] = useState(1);
     const [films, setFilms] = useState<Array<[string, number]>>([]);
 
     const user = auth.currentUser;
@@ -96,17 +98,38 @@ export function Home() {
         }
     };
 
+    const moviesPerPage = 10;
+
+    const totalPages = Math.ceil(films.length / moviesPerPage);
+
+    const reversedFilms = films.slice().reverse();
 
 
+    const indexOfLastMovie = currentPage * moviesPerPage;
+    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+    const currentMovies = reversedFilms.slice(indexOfFirstMovie, indexOfLastMovie);
 
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setCurrentPage(value);
+    };
 
     return (
         <Container>
             <InputAddMovie addMovie={addMovie} />
-            {films.map(([movie, count]) => (
+            {currentMovies.map(([movie, count]) => (
                 <CardMovie key={movie} movie={movie} count={count} handleDelete={() => removeMovie(movie.toLowerCase())} />
-
             ))}
+            {films.length > moviesPerPage && (
+                <BoxPage>
+                    <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                        size="large"
+                        color="secondary"
+                    />
+                </BoxPage>
+            )}
         </Container >
     );
 }

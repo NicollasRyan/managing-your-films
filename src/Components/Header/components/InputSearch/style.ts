@@ -21,5 +21,5 @@ export const Text = styled(Typography)`
 export const Input = styled(TextField)`
     margin: 50px 0 0;
     background: #fff;
-    border-radius: 5px 5px 0 0;
+    border-radius: 5px;
 `;
