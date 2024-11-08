@@ -20,6 +20,10 @@ export const Title = styled(Typography)`
     font-size: 18px;
     font-weight: 700;
     color: #fff;
+
+    @media (max-width: 600px) {
+    font-size: 14px;
+    }
 `;
 
 export const SeeMovie = styled(Typography)`
@@ -31,12 +35,15 @@ export const SeeMovie = styled(Typography)`
     font-weight: 700;
 
     margin-right: auto;
+
+    @media (max-width: 600px) {
+    font-size: 14px;
+    }
 `;
 
 export const ButtonDelete = styled(Button)`
   padding: 15px;
   border: 1px solid #fa5e55;
-
   color: #fa5e55;
 
   :hover {
@@ -46,5 +53,6 @@ export const ButtonDelete = styled(Button)`
 
   @media (max-width: 600px) {
     padding: 5px;
+    max-height: 50px;
   }
 `;

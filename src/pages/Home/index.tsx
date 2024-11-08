@@ -17,14 +17,7 @@ export function Home() {
         console.error("Usuário não autenticado");
         return <Navigate to="/login" />;
     }
-
     const userEmail = user.email ?? "";
-    console.log("=>", userEmail)
-
-    const userDocRef = doc(db, "user", userEmail);
-    const getUser = getDoc(userDocRef)
-
-
 
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -36,6 +29,7 @@ export function Home() {
                 return <Navigate to="/login" />;
             }
 
+            const userDocRef = doc(db, "user", userEmail);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
@@ -53,11 +47,12 @@ export function Home() {
         }
 
         getMovies(userEmail);
-    }, [films, getUser, userDocRef, userEmail]);
+    }, [films, userEmail]);
 
 
     const addMovie = async (newMovie: any) => {
         try {
+            const userDocRef = doc(db, "user", userEmail);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
@@ -66,10 +61,8 @@ export function Home() {
                 movies.push(newMovie.toLowerCase());
 
                 await updateDoc(userDocRef, { movie: movies })
-                console.log(movies);
             } else {
                 await setDoc(userDocRef, { movie: [newMovie.toLowerCase()] });
-                console.log("Documento criado e filme adicionado:", [newMovie.toLowerCase()]);
             }
         } catch (error) {
             console.log("Erro ao passar o filme: ", error)
@@ -78,19 +71,17 @@ export function Home() {
 
     const removeMovie = async (movieToRemove: string) => {
         try {
+            const userDocRef = doc(db, "user", userEmail);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
                 const movies = userDoc.data().movie || [];
-                console.log("Filmes antes da remoção:", movies);
 
                 const index = movies.indexOf(movieToRemove);
                 if (index !== -1) {
                     movies.splice(index, 1);
                     await updateDoc(userDocRef, { movie: movies });
                     console.log("Filme removido:", movieToRemove);
-                } else {
-                    console.log("Filme não encontrado:", movieToRemove);
                 }
             }
         } catch (error) {

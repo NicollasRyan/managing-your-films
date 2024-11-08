@@ -1,5 +1,5 @@
-import { Avatar, Drawer, IconButton, Tooltip } from "@mui/material";
-import { BoxHeader, ButtonToSearch, ContainerHeader, Title } from "./style";
+import { Drawer, IconButton, Tooltip } from "@mui/material";
+import { BoxHeader, ButtonToSearch, ContainerHeader, Title, AvatarProfile } from "./style";
 import { TheaterComedyOutlined, SearchOutlined } from "@mui/icons-material";
 import { useState, MouseEvent } from "react";
 import { MenuComponent } from "./components/Menu";
@@ -63,7 +63,7 @@ export function Header() {
                         aria-haspopup="true"
                         aria-expanded={openLogin ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 35, height: 35 }} />
+                        <AvatarProfile />
                     </IconButton>
                 </Tooltip>
                 <MenuComponent handleClose={handleClose} open={openLogin} anchorEl={anchorEl} name={name} logout={handleLogout} />
