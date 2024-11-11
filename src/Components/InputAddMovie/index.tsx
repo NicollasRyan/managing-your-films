@@ -13,6 +13,7 @@ export function InputAddMovie({ addMovie }: { addMovie: (newMovie: string) => vo
         <form onSubmit={handleSubmit(onSubmit)}>
             <InputAdd
                 fullWidth
+                autoComplete="off"
                 label="Qual foi o filme que você assistiu?"
                 variant="filled"
                 {...register("movie", { required: true })}

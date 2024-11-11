@@ -14,6 +14,11 @@ export const ButtonToSearch = styled(Button)`
   color: #fff;
   background: transparent;
   border: 1px solid #a3a3a3;
+
+  :hover {
+    background: #1461ff;
+    color: #dbdbdb;
+  }
 `;
 
 export const ContainerHeader = styled(Container)`

@@ -30,7 +30,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        AllGym
+        Managing Your Films
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

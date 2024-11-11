@@ -17,12 +17,12 @@ export const BoxText = styled(Box)`
 `;
 
 export const Title = styled(Typography)`
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     color: #fff;
 
     @media (max-width: 600px) {
-    font-size: 14px;
+    font-size: 12px;
     }
 `;
 
@@ -31,18 +31,18 @@ export const SeeMovie = styled(Typography)`
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
 
     margin-right: auto;
 
     @media (max-width: 600px) {
-    font-size: 14px;
+    font-size: 12px;
     }
 `;
 
 export const ButtonDelete = styled(Button)`
-  padding: 15px;
+  padding: 12px;
   border: 1px solid #fa5e55;
   color: #fa5e55;
 
@@ -52,7 +52,6 @@ export const ButtonDelete = styled(Button)`
   }
 
   @media (max-width: 600px) {
-    padding: 5px;
-    max-height: 50px;
+    max-height: 40px;
   }
 `;

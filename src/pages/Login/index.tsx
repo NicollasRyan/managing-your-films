@@ -11,6 +11,7 @@ import {
   Button,
   IconButton,
   InputAdornment,
+  Grid,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Error } from "./styles";
@@ -32,7 +33,7 @@ function Copyright(props: any) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {"Copyright © "}
       <Link to="/" color="inherit">
-        AllGym
+        Managing Your Films
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -140,11 +141,11 @@ export function Login() {
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Login
             </Button>
-            {/* <Grid container>
+            <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link to="/register">{"Você não tem uma conta? Register"}</Link>
               </Grid>
-            </Grid> */}
+            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

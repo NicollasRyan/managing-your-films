@@ -80,6 +80,7 @@ export function InputSearch() {
             <Text>Pesquisar filme que você já assistiu:</Text>
             <Input
                 fullWidth
+                autoComplete="off"
                 type="text"
                 label="Buscar filme"
                 variant="filled"
