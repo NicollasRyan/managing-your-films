@@ -45,6 +45,7 @@ export function Home() {
         }
 
         getMovies(user.uid);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [films]);
 
 
