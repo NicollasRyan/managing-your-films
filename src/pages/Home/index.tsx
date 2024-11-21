@@ -17,19 +17,17 @@ export function Home() {
         console.error("Usuário não autenticado");
         return <Navigate to="/login" />;
     }
-    const userEmail = user.email ?? "";
-
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         async function getMovies(userId: string) {
 
-            if (!userEmail) {
+            if (!user) {
                 console.error("Usuário não autenticado");
                 return <Navigate to="/login" />;
             }
 
-            const userDocRef = doc(db, "user", userEmail);
+            const userDocRef = doc(db, "user", user.uid);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
@@ -46,13 +44,13 @@ export function Home() {
             }
         }
 
-        getMovies(userEmail);
-    }, [films, userEmail]);
+        getMovies(user.uid);
+    }, [films]);
 
 
     const addMovie = async (newMovie: any) => {
         try {
-            const userDocRef = doc(db, "user", userEmail);
+            const userDocRef = doc(db, "user", user.uid);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
@@ -71,7 +69,7 @@ export function Home() {
 
     const removeMovie = async (movieToRemove: string) => {
         try {
-            const userDocRef = doc(db, "user", userEmail);
+            const userDocRef = doc(db, "user", user.uid);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
