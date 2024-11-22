@@ -16,14 +16,12 @@ export function InputSearch() {
         return <Navigate to="/login" />;
     }
 
-    const userEmail = user.email ?? "";
-
     const handleSearch = (e: any) => {
         setSearchTerm(e.target.value)
         searchMovie(e.target.value)
     }
 
-    const userDocRef = doc(db, "user", userEmail);
+    const userDocRef = doc(db, "user", user.uid);
 
     const searchMovie = async (movieToSearch: string) => {
         try {

@@ -27,7 +27,7 @@ export function Home() {
                 return <Navigate to="/login" />;
             }
 
-            const userDocRef = doc(db, "user", user.uid);
+            const userDocRef = doc(db, "user", userId);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
