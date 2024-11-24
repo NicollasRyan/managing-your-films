@@ -45,7 +45,7 @@ export function Header() {
                 <Drawer
                     open={open}
                     onClose={toggleDrawer(false)}
-                    PaperProps={{ style: { backgroundColor: "#282828" } }}
+                    PaperProps={{ style: { backgroundColor: "#212121" } }}
                 >
                     <InputSearch />
                 </Drawer>

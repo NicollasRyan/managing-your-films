@@ -9,6 +9,8 @@ export const BoxMovie = styled(Box)`
     background: #35383a;
     border-radius: 10px;
     padding: 30px;
+
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 `;
 
 export const BoxText = styled(Box)`
@@ -17,7 +19,8 @@ export const BoxText = styled(Box)`
 `;
 
 export const Title = styled(Typography)`
-    font-size: 16px;
+    font-size: 20px;
+    font-family: "Merriweather", serif;
     font-weight: 700;
     color: #fff;
 
@@ -30,8 +33,10 @@ export const SeeMovie = styled(Typography)`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    font-family: "Merriweather", serif;
     color: #fff;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
 
     margin-right: auto;
@@ -43,11 +48,11 @@ export const SeeMovie = styled(Typography)`
 
 export const ButtonDelete = styled(Button)`
   padding: 12px;
-  border: 1px solid #fa5e55;
+  background: #d1d1d1;
   color: #fa5e55;
-
   :hover {
-    background: #ff1b14;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    background: #a41d1d;
     color: #dbdbdb;
   }
 
