@@ -116,7 +116,7 @@ export function Home() {
                         page={currentPage}
                         onChange={handlePageChange}
                         size="large"
-                        color="secondary"
+                        color="primary"
                     />
                 </BoxPage>
             )}
