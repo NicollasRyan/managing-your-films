@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Pagination } from "@mui/material";
+import { Alert, Container, Pagination } from "@mui/material";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 import { auth, db } from "../../firebase";
@@ -11,6 +11,7 @@ import { BoxPage } from "./style";
 export function Home() {
     const [currentPage, setCurrentPage] = useState(1);
     const [films, setFilms] = useState<Array<[string, number]>>([]);
+    const [success, setSuccess] = useState("");
 
     const user = auth.currentUser;
     if (!user) {
@@ -45,7 +46,7 @@ export function Home() {
         }
 
         getMovies(user.uid);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [films]);
 
 
@@ -60,6 +61,10 @@ export function Home() {
                 movies.push(newMovie.toLowerCase());
 
                 await updateDoc(userDocRef, { movie: movies })
+                setSuccess("Treino adicionado com successo!");
+                setTimeout(() => {
+                    setSuccess("");
+                }, 5000)
             } else {
                 await setDoc(userDocRef, { movie: [newMovie.toLowerCase()] });
             }
@@ -82,6 +87,10 @@ export function Home() {
                     await updateDoc(userDocRef, { movie: movies });
                     console.log("Filme removido:", movieToRemove);
                 }
+                setSuccess("Treino deletado com successo!");
+                    setTimeout(() => {
+                        setSuccess("");
+                    }, 5000)
             }
         } catch (error) {
             console.log("Erro ao remover o filme:", error);
@@ -106,6 +115,7 @@ export function Home() {
     return (
         <Container>
             <InputAddMovie addMovie={addMovie} />
+            {success && <Alert severity="success" sx={{margin: "25px 0", fontSize: "20px"}}>{success}</Alert>}
             {currentMovies.map(([movie, count]) => (
                 <CardMovie key={movie} movie={movie} count={count} handleDelete={() => removeMovie(movie.toLowerCase())} />
             ))}
