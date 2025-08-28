@@ -61,7 +61,7 @@ export function Home() {
                 movies.push(newMovie.toLowerCase());
 
                 await updateDoc(userDocRef, { movie: movies })
-                setSuccess("Treino adicionado com successo!");
+                setSuccess("Filme adicionado com successo!");
                 setTimeout(() => {
                     setSuccess("");
                 }, 5000)
@@ -87,7 +87,7 @@ export function Home() {
                     await updateDoc(userDocRef, { movie: movies });
                     console.log("Filme removido:", movieToRemove);
                 }
-                setSuccess("Treino deletado com successo!");
+                setSuccess("Filme deletado com successo!");
                     setTimeout(() => {
                         setSuccess("");
                     }, 5000)
