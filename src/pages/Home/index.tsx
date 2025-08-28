@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Pagination } from "@mui/material";
+import { Alert, Container, Pagination } from "@mui/material";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 import { auth, db } from "../../firebase";
@@ -11,25 +11,24 @@ import { BoxPage } from "./style";
 export function Home() {
     const [currentPage, setCurrentPage] = useState(1);
     const [films, setFilms] = useState<Array<[string, number]>>([]);
+    const [success, setSuccess] = useState("");
 
     const user = auth.currentUser;
     if (!user) {
         console.error("Usuário não autenticado");
         return <Navigate to="/login" />;
     }
-    const userEmail = user.email ?? "";
-
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         async function getMovies(userId: string) {
 
-            if (!userEmail) {
+            if (!user) {
                 console.error("Usuário não autenticado");
                 return <Navigate to="/login" />;
             }
 
-            const userDocRef = doc(db, "user", userEmail);
+            const userDocRef = doc(db, "user", userId);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
@@ -46,13 +45,14 @@ export function Home() {
             }
         }
 
-        getMovies(userEmail);
-    }, [films, userEmail]);
+        getMovies(user.uid);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [films]);
 
 
     const addMovie = async (newMovie: any) => {
         try {
-            const userDocRef = doc(db, "user", userEmail);
+            const userDocRef = doc(db, "user", user.uid);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
@@ -61,6 +61,10 @@ export function Home() {
                 movies.push(newMovie.toLowerCase());
 
                 await updateDoc(userDocRef, { movie: movies })
+                setSuccess("Filme adicionado com successo!");
+                setTimeout(() => {
+                    setSuccess("");
+                }, 5000)
             } else {
                 await setDoc(userDocRef, { movie: [newMovie.toLowerCase()] });
             }
@@ -71,7 +75,7 @@ export function Home() {
 
     const removeMovie = async (movieToRemove: string) => {
         try {
-            const userDocRef = doc(db, "user", userEmail);
+            const userDocRef = doc(db, "user", user.uid);
             const userDoc = await getDoc(userDocRef);
 
             if (userDoc.exists()) {
@@ -83,6 +87,10 @@ export function Home() {
                     await updateDoc(userDocRef, { movie: movies });
                     console.log("Filme removido:", movieToRemove);
                 }
+                setSuccess("Filme deletado com successo!");
+                    setTimeout(() => {
+                        setSuccess("");
+                    }, 5000)
             }
         } catch (error) {
             console.log("Erro ao remover o filme:", error);
@@ -107,6 +115,7 @@ export function Home() {
     return (
         <Container>
             <InputAddMovie addMovie={addMovie} />
+            {success && <Alert severity="success" sx={{margin: "25px 0", fontSize: "20px"}}>{success}</Alert>}
             {currentMovies.map(([movie, count]) => (
                 <CardMovie key={movie} movie={movie} count={count} handleDelete={() => removeMovie(movie.toLowerCase())} />
             ))}
@@ -117,7 +126,7 @@ export function Home() {
                         page={currentPage}
                         onChange={handlePageChange}
                         size="large"
-                        color="secondary"
+                        color="primary"
                     />
                 </BoxPage>
             )}

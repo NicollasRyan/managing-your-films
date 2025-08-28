@@ -1,4 +1,4 @@
-import { Delete, Visibility } from "@mui/icons-material";
+import { Delete, Slideshow } from "@mui/icons-material";
 import { BoxMovie, BoxText, ButtonDelete, SeeMovie, Title } from "./style";
 
 export function CardMovie({ movie, count, handleDelete }: any) {
@@ -7,7 +7,7 @@ export function CardMovie({ movie, count, handleDelete }: any) {
             <BoxText>
                 <Title>{movie.toUpperCase()}</Title>
                 <SeeMovie>
-                    <Visibility />
+                    <Slideshow sx={{ fontSize: 30 }} />
                     : {count}
                 </SeeMovie>
             </BoxText>

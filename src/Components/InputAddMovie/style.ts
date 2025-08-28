@@ -9,12 +9,14 @@ export const InputAdd = styled(TextField)`
 
 export const ButtonAdd = styled(Button)`
     color: #fff;
-    background: #199900;
+    background: #3f9524;
     border-radius: 0 0 5px 5px;
 
     padding: 15px;
 
     :hover {
-        background: #325425;
+        background: #30731b;
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+
     }
 `;
