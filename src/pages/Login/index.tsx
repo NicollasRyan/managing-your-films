@@ -141,11 +141,9 @@ export function Login() {
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Login
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
+            <Box display="flex" justifyContent="center">
                 <Link to="/register">{"Você não tem uma conta? Register"}</Link>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

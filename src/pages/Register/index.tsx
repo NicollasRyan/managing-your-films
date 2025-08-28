@@ -184,11 +184,9 @@ export function Register() {
             >
               Register
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <ButtonLink to="/login">Já tem uma conta? Login</ButtonLink>
-              </Grid>
-            </Grid>
+            <Box display="flex" justifyContent="center">
+              <ButtonLink to="/login">Já tem uma conta? Login</ButtonLink>
+            </Box>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
