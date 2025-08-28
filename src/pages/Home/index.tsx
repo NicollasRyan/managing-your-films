@@ -5,8 +5,8 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { InputAddMovie } from "../../Components/InputAddMovie";
 import { Navigate } from "react-router-dom";
-import { CardMovie } from "../../Components/CardMovie";
 import { BoxPage } from "./style";
+import CardMovie from "../../Components/CardMovie";
 
 export function Home() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -61,7 +61,7 @@ export function Home() {
                 movies.push(newMovie.toLowerCase());
 
                 await updateDoc(userDocRef, { movie: movies })
-                setSuccess("Treino adicionado com successo!");
+                setSuccess("Filme adicionado com successo!");
                 setTimeout(() => {
                     setSuccess("");
                 }, 5000)
@@ -87,7 +87,7 @@ export function Home() {
                     await updateDoc(userDocRef, { movie: movies });
                     console.log("Filme removido:", movieToRemove);
                 }
-                setSuccess("Treino deletado com successo!");
+                setSuccess("Filme deletado com successo!");
                     setTimeout(() => {
                         setSuccess("");
                     }, 5000)
@@ -117,7 +117,7 @@ export function Home() {
             <InputAddMovie addMovie={addMovie} />
             {success && <Alert severity="success" sx={{margin: "25px 0", fontSize: "20px"}}>{success}</Alert>}
             {currentMovies.map(([movie, count]) => (
-                <CardMovie key={movie} movie={movie} count={count} handleDelete={() => removeMovie(movie.toLowerCase())} />
+                <CardMovie key={movie} movie={movie} count={count} onDelete={() => removeMovie(movie.toLowerCase())} />
             ))}
             {films.length > moviesPerPage && (
                 <BoxPage>

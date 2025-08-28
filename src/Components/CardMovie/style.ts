@@ -1,62 +1,71 @@
 import styled from "@emotion/styled";
 import { Box, Button, Typography } from "@mui/material";
 
-export const BoxMovie = styled(Box)`
+export const Card = styled(Box)`
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    gap: 16px;
 
-    margin: 20px 0;
-    background: #35383a;
-    border-radius: 10px;
-    padding: 30px;
+    margin: 18px 0;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    backdrop-filter: blur(6px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
 
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    :hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.16);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+    }
 `;
 
-export const BoxText = styled(Box)`
+export const Left = styled(Box)`
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+`;
+
+export const Right = styled(Box)`
+    display: flex;
+    align-items: center;
+    gap: 10px;
 `;
 
 export const Title = styled(Typography)`
-    font-size: 20px;
-    font-family: "Merriweather", serif;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
     color: #fff;
-
-    @media (max-width: 600px) {
-    font-size: 12px;
-    }
 `;
 
-export const SeeMovie = styled(Typography)`
-    display: flex;
+export const Meta = styled(Typography)`
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-
-    font-family: "Merriweather", serif;
-    color: #fff;
-    font-size: 20px;
+    gap: 6px;
+    color: #d2d6da;
+    font-size: 13px;
     font-weight: 700;
+`;
 
-    margin-right: auto;
+export const Action = styled(Button)`
+    padding: 8px 10px;
+    min-width: 40px;
+    border-radius: 10px;
+    color: #ffb3ad;
+    border: 1px solid rgba(250, 94, 85, 0.4);
+    background: rgba(250, 94, 85, 0.08);
+    transition: all 180ms ease;
 
-    @media (max-width: 600px) {
-    font-size: 12px;
+    :hover {
+        background: rgba(250, 94, 85, 0.16);
+        border-color: rgba(250, 94, 85, 0.7);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+        color: #ffd6d2;
     }
 `;
 
-export const ButtonDelete = styled(Button)`
-  padding: 12px;
-  background: #d1d1d1;
-  color: #fa5e55;
-  :hover {
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    background: #a41d1d;
-    color: #dbdbdb;
-  }
 
-  @media (max-width: 600px) {
-    max-height: 40px;
-  }
-`;

@@ -63,7 +63,7 @@ export function Register() {
         displayName: `${data.first_name} ${data.last_name}`,
       });
 
-      navigate("/login");
+      navigate("/");
     } catch (err) { }
   };
 
