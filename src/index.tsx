@@ -9,8 +9,8 @@ import { Home } from './pages/Home';
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 
-
-const Main = () => {
+// Custom hook for authentication
+const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -23,24 +23,44 @@ const Main = () => {
     return () => unsubscribe();
   }, []);
 
+  return { isAuthenticated, loading };
+};
+
+// Protected Route component
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; // Exibe uma mensagem de carregamento enquanto verifica o estado de autenticação
+    return <div>Loading...</div>;
   }
 
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route element={<App />}>
-          <Route path="/" element={isAuthenticated ? <Home /> : <Navigate
-            to="/login" />} />
-        </Route>
-      </>
-    )
-  );
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
+};
 
+// Public Route component (redirects if authenticated)
+const PublicRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return isAuthenticated ? <Navigate to="/" replace /> : <>{children}</>;
+};
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+      <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+      <Route element={<App />}>
+        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+      </Route>
+    </>
+  )
+);
+
+const Main = () => {
   return <RouterProvider router={router} />;
 };
 
@@ -53,7 +73,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
