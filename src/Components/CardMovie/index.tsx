@@ -1,19 +1,34 @@
-import { Delete, Slideshow } from "@mui/icons-material";
-import { BoxMovie, BoxText, ButtonDelete, SeeMovie, Title } from "./style";
+import { DeleteOutline, PlayCircleOutline } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
+import { Card, Left, Right, Title, Meta, Action } from "./style";
 
-export function CardMovie({ movie, count, handleDelete }: any) {
+type CardMovieProps = {
+    movie: string;
+    count: number;
+    onDelete: () => void;
+};
+
+export function CardMovie({ movie, count, onDelete }: CardMovieProps) {
     return (
-        <BoxMovie>
-            <BoxText>
-                <Title>{movie.toUpperCase()}</Title>
-                <SeeMovie>
-                    <Slideshow sx={{ fontSize: 30 }} />
-                    : {count}
-                </SeeMovie>
-            </BoxText>
-            <ButtonDelete onClick={() => handleDelete()}>
-                <Delete />
-            </ButtonDelete>
-        </BoxMovie>
-    )
+        <Card>
+            <Left>
+                <div>
+                    <Title>{movie.toUpperCase()}</Title>
+                    <Meta>
+                        <PlayCircleOutline sx={{ fontSize: 18 }} /> {count} views
+                    </Meta>
+                </div>
+            </Left>
+            <Right>
+                <Tooltip title="Remover" placement="top" arrow>
+                    <Action aria-label="Remover filme" onClick={onDelete}>
+                        <DeleteOutline />
+                    </Action>
+                </Tooltip>
+            </Right>
+        </Card>
+    );
 }
+
+export default CardMovie;
+
