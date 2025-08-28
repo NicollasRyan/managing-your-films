@@ -88,7 +88,7 @@ export function InputSearch() {
             <>
                 {searchTerm && searchResult && searchResult.length >= 0 ? (
                     searchResult.map(([movie, count], index) => (
-                        <CardMovie key={index} movie={movie} count={count} handleDelete={() => removeMovie(movie.toLowerCase())} />
+                        <CardMovie key={index} movie={movie} count={count} onDelete={() => removeMovie(movie.toLowerCase())} />
                     ))
                 ) : null}
             </>
