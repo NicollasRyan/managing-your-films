@@ -47,7 +47,7 @@ export function Home() {
 
         getMovies(user.uid);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [films]);
+    }, [user?.uid]);
 
 
     const addMovie = async (newMovie: any) => {
@@ -97,6 +97,47 @@ export function Home() {
         }
     };
 
+    const incrementMovie = async (movieToIncrement: string) => {
+        try {
+            const userDocRef = doc(db, "user", user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+                const movies = userDoc.data().movie || [];
+                movies.push(movieToIncrement.toLowerCase());
+                await updateDoc(userDocRef, { movie: movies });
+                setSuccess("Visualização adicionada!");
+                setTimeout(() => {
+                    setSuccess("");
+                }, 3000);
+            }
+        } catch (error) {
+            console.log("Erro ao adicionar visualização:", error);
+        }
+    };
+
+    const decrementMovie = async (movieToDecrement: string) => {
+        try {
+            const userDocRef = doc(db, "user", user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+                const movies = userDoc.data().movie || [];
+                const index = movies.indexOf(movieToDecrement.toLowerCase());
+                if (index !== -1) {
+                    movies.splice(index, 1);
+                    await updateDoc(userDocRef, { movie: movies });
+                    setSuccess("Visualização removida!");
+                    setTimeout(() => {
+                        setSuccess("");
+                    }, 3000);
+                }
+            }
+        } catch (error) {
+            console.log("Erro ao remover visualização:", error);
+        }
+    };
+
     const moviesPerPage = 10;
 
     const totalPages = Math.ceil(films.length / moviesPerPage);
@@ -117,7 +158,14 @@ export function Home() {
             <InputAddMovie addMovie={addMovie} />
             {success && <Alert severity="success" sx={{ mt: 3, mb: 1.5, fontWeight: 700 }}>{success}</Alert>}
             {currentMovies.map(([movie, count]) => (
-                <CardMovie key={movie} movie={movie} count={count} onDelete={() => removeMovie(movie.toLowerCase())} />
+                <CardMovie 
+                    key={movie} 
+                    movie={movie} 
+                    count={count} 
+                    onDelete={() => removeMovie(movie.toLowerCase())}
+                    onIncrement={() => incrementMovie(movie.toLowerCase())}
+                    onDecrement={() => decrementMovie(movie.toLowerCase())}
+                />
             ))}
             {films.length > moviesPerPage && (
                 <BoxPage>
