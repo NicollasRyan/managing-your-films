@@ -35,6 +35,18 @@ export const Right = styled(Box)`
     gap: 10px;
 `;
 
+export const Badge = styled(Box)`
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    color: #e6e9ed;
+`;
+
 export const Title = styled(Typography)`
     font-size: 18px;
     font-weight: 800;

@@ -115,7 +115,7 @@ export function Home() {
     return (
         <Container>
             <InputAddMovie addMovie={addMovie} />
-            {success && <Alert severity="success" sx={{margin: "25px 0", fontSize: "20px"}}>{success}</Alert>}
+            {success && <Alert severity="success" sx={{ mt: 3, mb: 1.5, fontWeight: 700 }}>{success}</Alert>}
             {currentMovies.map(([movie, count]) => (
                 <CardMovie key={movie} movie={movie} count={count} onDelete={() => removeMovie(movie.toLowerCase())} />
             ))}
@@ -127,6 +127,18 @@ export function Home() {
                         onChange={handlePageChange}
                         size="large"
                         color="primary"
+                        sx={{
+                            backgroundColor: "rgba(255,255,255,0.04)",
+                            borderRadius: "9999px",
+                            px: 1,
+                            py: 0.5,
+                            '.MuiPaginationItem-root': {
+                                color: '#e6e9ed'
+                            },
+                            '.Mui-selected': {
+                                backgroundColor: 'rgba(255,255,255,0.16) !important'
+                            }
+                        }}
                     />
                 </BoxPage>
             )}
