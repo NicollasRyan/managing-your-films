@@ -73,6 +73,37 @@ export function InputSearch() {
         }
     };
 
+    const incrementMovie = async (movieToIncrement: string) => {
+        try {
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+                const movies = userDoc.data().movie || [];
+                movies.push(movieToIncrement.toLowerCase());
+                await updateDoc(userDocRef, { movie: movies });
+            }
+        } catch (error) {
+            console.log("Erro ao adicionar visualização:", error);
+        }
+    };
+
+    const decrementMovie = async (movieToDecrement: string) => {
+        try {
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+                const movies = userDoc.data().movie || [];
+                const index = movies.indexOf(movieToDecrement.toLowerCase());
+                if (index !== -1) {
+                    movies.splice(index, 1);
+                    await updateDoc(userDocRef, { movie: movies });
+                }
+            }
+        } catch (error) {
+            console.log("Erro ao remover visualização:", error);
+        }
+    };
+
     return (
         <BoxSearch>
             <Text>Pesquisar filme que você já assistiu:</Text>
@@ -88,7 +119,14 @@ export function InputSearch() {
             <>
                 {searchTerm && searchResult && searchResult.length >= 0 ? (
                     searchResult.map(([movie, count], index) => (
-                        <CardMovie key={index} movie={movie} count={count} onDelete={() => removeMovie(movie.toLowerCase())} />
+                        <CardMovie 
+                            key={index} 
+                            movie={movie} 
+                            count={count} 
+                            onDelete={() => removeMovie(movie.toLowerCase())}
+                            onIncrement={() => incrementMovie(movie.toLowerCase())}
+                            onDecrement={() => decrementMovie(movie.toLowerCase())}
+                        />
                     ))
                 ) : null}
             </>
