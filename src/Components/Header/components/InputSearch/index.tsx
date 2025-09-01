@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BoxSearch, Input, Text } from "./style";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { Navigate } from "react-router-dom";
 import { auth, db } from "../../../../firebase";
 import { CardMovie } from "../../../CardMovie";
@@ -51,59 +51,6 @@ export function InputSearch() {
         }
     };
 
-    const removeMovie = async (movieToRemove: string) => {
-        try {
-            const userDoc = await getDoc(userDocRef);
-
-            if (userDoc.exists()) {
-                const movies = userDoc.data().movie || [];
-                console.log("Filmes antes da remoção:", movies);
-
-                const index = movies.indexOf(movieToRemove);
-                if (index !== -1) {
-                    movies.splice(index, 1);
-                    await updateDoc(userDocRef, { movie: movies });
-                    console.log("Filme removido:", movieToRemove);
-                } else {
-                    console.log("Filme não encontrado:", movieToRemove);
-                }
-            }
-        } catch (error) {
-            console.log("Erro ao remover o filme:", error);
-        }
-    };
-
-    const incrementMovie = async (movieToIncrement: string) => {
-        try {
-            const userDoc = await getDoc(userDocRef);
-
-            if (userDoc.exists()) {
-                const movies = userDoc.data().movie || [];
-                movies.push(movieToIncrement.toLowerCase());
-                await updateDoc(userDocRef, { movie: movies });
-            }
-        } catch (error) {
-            console.log("Erro ao adicionar visualização:", error);
-        }
-    };
-
-    const decrementMovie = async (movieToDecrement: string) => {
-        try {
-            const userDoc = await getDoc(userDocRef);
-
-            if (userDoc.exists()) {
-                const movies = userDoc.data().movie || [];
-                const index = movies.indexOf(movieToDecrement.toLowerCase());
-                if (index !== -1) {
-                    movies.splice(index, 1);
-                    await updateDoc(userDocRef, { movie: movies });
-                }
-            }
-        } catch (error) {
-            console.log("Erro ao remover visualização:", error);
-        }
-    };
-
     return (
         <BoxSearch>
             <Text>Pesquisar filme que você já assistiu:</Text>
@@ -123,9 +70,6 @@ export function InputSearch() {
                             key={index} 
                             movie={movie} 
                             count={count} 
-                            onDelete={() => removeMovie(movie.toLowerCase())}
-                            onIncrement={() => incrementMovie(movie.toLowerCase())}
-                            onDecrement={() => decrementMovie(movie.toLowerCase())}
                         />
                     ))
                 ) : null}

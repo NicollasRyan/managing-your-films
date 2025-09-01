@@ -1,6 +1,6 @@
 import { Drawer, IconButton, Tooltip } from "@mui/material";
 import { BoxHeader, ButtonToSearch, ContainerHeader, Title, AvatarProfile } from "./style";
-import { TheaterComedyOutlined, SearchOutlined } from "@mui/icons-material";
+import { SearchOutlined } from "@mui/icons-material";
 import { useState, MouseEvent } from "react";
 import { MenuComponent } from "./components/Menu";
 import { getAuth, signOut } from "firebase/auth";
@@ -51,7 +51,6 @@ export function Header() {
                 </Drawer>
                 <Title>
                     Managing Your Films
-                    <TheaterComedyOutlined sx={{ fontSize: "35px" }} />
                 </Title>
 
                 <Tooltip title="Account settings">

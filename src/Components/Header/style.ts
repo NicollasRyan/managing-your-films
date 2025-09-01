@@ -30,6 +30,7 @@ export const ButtonToSearch = styled(Button)`
 
 export const ContainerHeader = styled(Container)`
   display: flex;
+  
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
