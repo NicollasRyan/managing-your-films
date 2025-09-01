@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Container, Pagination } from "@mui/material";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 
 import { auth, db } from "../../firebase";
 import { InputAddMovie } from "../../Components/InputAddMovie";
@@ -21,18 +21,13 @@ export function Home() {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        async function getMovies(userId: string) {
+        if (!user?.uid) return;
 
-            if (!user) {
-                console.error("Usuário não autenticado");
-                return <Navigate to="/login" />;
-            }
+        const userDocRef = doc(db, "user", user.uid);
 
-            const userDocRef = doc(db, "user", userId);
-            const userDoc = await getDoc(userDocRef);
-
-            if (userDoc.exists()) {
-                const movies = userDoc.data().movie;
+        const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
+            if (docSnap.exists()) {
+                const movies = docSnap.data().movie || [];
 
                 const movieCounts = movies.reduce((acc: Record<string, number>, movie: string) => {
                     const movieLower = movie.toLowerCase();
@@ -41,14 +36,11 @@ export function Home() {
                 }, {});
 
                 setFilms(Object.entries(movieCounts));
-
             }
-        }
+        });
 
-        getMovies(user.uid);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        return () => unsubscribe();
     }, [user?.uid]);
-
 
     const addMovie = async (newMovie: any) => {
         try {
@@ -88,9 +80,9 @@ export function Home() {
                     console.log("Filme removido:", movieToRemove);
                 }
                 setSuccess("Filme deletado com successo!");
-                    setTimeout(() => {
-                        setSuccess("");
-                    }, 5000)
+                setTimeout(() => {
+                    setSuccess("");
+                }, 5000)
             }
         } catch (error) {
             console.log("Erro ao remover o filme:", error);
@@ -158,10 +150,10 @@ export function Home() {
             <InputAddMovie addMovie={addMovie} />
             {success && <Alert severity="success" sx={{ mt: 3, mb: 1.5, fontWeight: 700 }}>{success}</Alert>}
             {currentMovies.map(([movie, count]) => (
-                <CardMovie 
-                    key={movie} 
-                    movie={movie} 
-                    count={count} 
+                <CardMovie
+                    key={movie}
+                    movie={movie}
+                    count={count}
                     onDelete={() => removeMovie(movie.toLowerCase())}
                     onIncrement={() => incrementMovie(movie.toLowerCase())}
                     onDecrement={() => decrementMovie(movie.toLowerCase())}
